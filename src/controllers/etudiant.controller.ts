@@ -1,0 +1,83 @@
+import { Request, Response, NextFunction } from "express";
+import { EtudiantModel } from "../models/etudiant.model";
+import { AppError } from "../types/AppError";
+
+export const EtudiantController = {
+  async getAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const etudiants = await EtudiantModel.findAll();
+      res.status(200).json(etudiants);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async getById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const etudiant = await EtudiantModel.findById(id);
+      if (!etudiant) {
+        throw new AppError("Etudiant non trouve", 404);
+      }
+      res.status(200).json(etudiant);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { nom, prenom, email } = req.body;
+      if (!nom || !prenom || !email) {
+        throw new AppError("Les champs nom, prenom et email sont obligatoires", 400);
+      }
+      const nouvel = await EtudiantModel.create({ nom, prenom, email });
+      res.status(201).json(nouvel);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const { nom, prenom, email } = req.body;
+      if (!nom || !prenom || !email) {
+        throw new AppError("Les champs nom, prenom et email sont obligatoires pour un PUT", 400);
+      }
+      const updated = await EtudiantModel.update(id, { nom, prenom, email });
+      if (!updated) {
+        throw new AppError("Etudiant non trouve", 404);
+      }
+      res.status(200).json(updated);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async patch(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const updated = await EtudiantModel.patch(id, req.body);
+      if (!updated) {
+        throw new AppError("Etudiant non trouve", 404);
+      }
+      res.status(200).json(updated);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async remove(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const deleted = await EtudiantModel.remove(id);
+      if (!deleted) {
+        throw new AppError("Etudiant non trouve", 404);
+      }
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  },
+};
