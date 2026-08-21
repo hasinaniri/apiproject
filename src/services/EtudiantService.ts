@@ -1,6 +1,6 @@
 import { etudiantRepository } from "../repository/EtudiantRepository";
-import { AppError } from "../types/AppError";
-
+import { AppError } from "../model/AppError";
+import { Etudiant,EtudiantInput } from "../model/Etudiant";
 export const EtudiantService = {
   async getAll() {
     return await etudiantRepository.findAll();
@@ -16,26 +16,25 @@ export const EtudiantService = {
     return etudiant;
   },
 
-  async create(data: {
-    nom: string;
-    prenom: string;
-    email: string;
-  }) {
-    const { nom, prenom, email } = data;
+  async create(data: EtudiantInput[]): Promise<Etudiant[]> {
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new AppError(
+      "La liste des étudiants est obligatoire",
+      400
+    );
+  }
 
-    if (!nom || !prenom || !email) {
+  for (const etudiant of data) {
+    if (!etudiant.nom || !etudiant.prenom || !etudiant.email) {
       throw new AppError(
         "Les champs nom, prenom et email sont obligatoires",
         400
       );
     }
+  }
 
-    return await etudiantRepository.create({
-      nom,
-      prenom,
-      email,
-    });
-  },
+  return await etudiantRepository.create(data);
+},
 
   async update(
     id: number,

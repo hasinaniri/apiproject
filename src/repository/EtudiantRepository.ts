@@ -1,5 +1,5 @@
 import { pool } from "../config/db";
-import { Etudiant, EtudiantInput } from "../types/Etudiant";
+import { Etudiant, EtudiantInput } from "../model/Etudiant";
 
 export const etudiantRepository = {
   async findAll(): Promise<Etudiant[]> {
@@ -12,13 +12,30 @@ export const etudiantRepository = {
     return result.rows[0] || null;
   },
 
-  async create(data: EtudiantInput): Promise<Etudiant> {
-    const { nom, prenom, email } = data;
+  async create(data: EtudiantInput[]): Promise<Etudiant[]> {
+    const values: string[] = [];
+    const params: any[] = [];
+
+    data.forEach((etudiant, index) => {
+      const offset = index * 3;
+
+      values.push(`($${offset + 1}, $${offset + 2}, $${offset + 3})`);
+
+      params.push(
+        etudiant.nom,
+        etudiant.prenom,
+        etudiant.email
+      );
+    });
+
     const result = await pool.query(
-      "INSERT INTO etudiants (nom, prenom, email) VALUES ($1, $2, $3) RETURNING *",
-      [nom, prenom, email]
+      `INSERT INTO etudiants (nom, prenom, email)
+      VALUES ${values.join(", ")}
+      RETURNING *`,
+      params
     );
-    return result.rows[0];
+
+    return result.rows;
   },
 
   async update(id: number, data: EtudiantInput): Promise<Etudiant | null> {
