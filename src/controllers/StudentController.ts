@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { etudiantRepository } from "../repository/StudentRepository";
+import { StudentRepository } from "../repository/StudentRepository";
 import { AppError } from "../types/AppError";
-import { EtudiantService } from "../services/StudentService";
-export const EtudiantController = {
+import { StudentService } from "../services/StudentService";
+export const StudentController = {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const etudiants = await etudiantRepository.findAll();
-      res.status(200).json(etudiants);
+      const Students = await StudentRepository.findAll();
+      res.status(200).json(Students);
     } catch (err) {
       next(err);
     }
@@ -15,11 +15,11 @@ export const EtudiantController = {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
-      const etudiant = await etudiantRepository.findById(id);
-      if (!etudiant) {
-        throw new AppError("Etudiant non trouve", 404);
+      const Student = await StudentRepository.findById(id);
+      if (!Student) {
+        throw new AppError("Student non trouve", 404);
       }
-      res.status(200).json(etudiant);
+      res.status(200).json(Student);
     } catch (err) {
       next(err);
     }
@@ -27,7 +27,7 @@ export const EtudiantController = {
 
   async create(req: Request, res: Response, next: NextFunction) {
   try {
-    const nouveaux = await EtudiantService.create(req.body);
+    const nouveaux = await StudentService.create(req.body);
 
     res.status(201).json(nouveaux);
   } catch (err) {
@@ -42,9 +42,9 @@ export const EtudiantController = {
       if (!nom || !prenom || !email) {
         throw new AppError("Les champs nom, prenom et email sont obligatoires pour un PUT", 400);
       }
-      const updated = await etudiantRepository.update(id, { nom, prenom, email });
+      const updated = await StudentRepository.update(id, { nom, prenom, email });
       if (!updated) {
-        throw new AppError("Etudiant non trouve", 404);
+        throw new AppError("Student non trouve", 404);
       }
       res.status(200).json(updated);
     } catch (err) {
@@ -55,9 +55,10 @@ export const EtudiantController = {
   async patch(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
-      const updated = await etudiantRepository.patch(id, req.body);
+      const updated = await StudentRepository.patch(id, req.body);
+
       if (!updated) {
-        throw new AppError("Etudiant non trouve", 404);
+        throw new AppError("Student non trouve", 404);
       }
       res.status(200).json(updated);
     } catch (err) {
@@ -68,9 +69,10 @@ export const EtudiantController = {
   async remove(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
-      const deleted = await etudiantRepository.remove(id);
+      const deleted = await StudentRepository.remove(id);
+      
       if (!deleted) {
-        throw new AppError("Etudiant non trouve", 404);
+        throw new AppError("Student non trouve", 404);
       }
       res.status(204).send();
     } catch (err) {

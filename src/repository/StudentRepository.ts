@@ -1,35 +1,35 @@
 import { pool } from "../config/db";
-import { Etudiant, EtudiantInput } from "../model/Student";
+import { Student, StudentInput } from "../model/Student";
 
-export const etudiantRepository = {
-  async findAll(): Promise<Etudiant[]> {
-    const result = await pool.query("SELECT * FROM etudiants ORDER BY id");
+export const StudentRepository = {
+  async findAll(): Promise<Student[]> {
+    const result = await pool.query("SELECT * FROM Students ORDER BY id");
     return result.rows;
   },
 
-  async findById(id: number): Promise<Etudiant | null> {
-    const result = await pool.query("SELECT * FROM etudiants WHERE id = $1", [id]);
+  async findById(id: number): Promise<Student | null> {
+    const result = await pool.query("SELECT * FROM Students WHERE id = $1", [id]);
     return result.rows[0] || null;
   },
 
-  async create(data: EtudiantInput[]): Promise<Etudiant[]> {
+  async create(data: StudentInput[]): Promise<Student[]> {
     const values: string[] = [];
     const params: any[] = [];
 
-    data.forEach((etudiant, index) => {
+    data.forEach((Student, index) => {
       const offset = index * 3;
 
       values.push(`($${offset + 1}, $${offset + 2}, $${offset + 3})`);
 
       params.push(
-        etudiant.nom,
-        etudiant.prenom,
-        etudiant.email
+        Student.nom,
+        Student.prenom,
+        Student.email
       );
     });
 
     const result = await pool.query(
-      `INSERT INTO etudiants (nom, prenom, email)
+      `INSERT INTO Students (nom, prenom, email)
       VALUES ${values.join(", ")}
       RETURNING *`,
       params
@@ -38,17 +38,17 @@ export const etudiantRepository = {
     return result.rows;
   },
 
-  async update(id: number, data: EtudiantInput): Promise<Etudiant | null> {
+  async update(id: number, data: StudentInput): Promise<Student | null> {
     const { nom, prenom, email } = data;
     const result = await pool.query(
-      "UPDATE etudiants SET nom = $1, prenom = $2, email = $3 WHERE id = $4 RETURNING *",
+      "UPDATE Students SET nom = $1, prenom = $2, email = $3 WHERE id = $4 RETURNING *",
       [nom, prenom, email, id]
     );
     return result.rows[0] || null;
   },
 
-  async patch(id: number, data: Partial<EtudiantInput>): Promise<Etudiant | null> {
-    const existing = await etudiantRepository.findById(id);
+  async patch(id: number, data: Partial<StudentInput>): Promise<Student | null> {
+    const existing = await StudentRepository.findById(id);
     if (!existing) return null;
 
     const nom = data.nom ?? existing.nom;
@@ -56,14 +56,14 @@ export const etudiantRepository = {
     const email = data.email ?? existing.email;
 
     const result = await pool.query(
-      "UPDATE etudiants SET nom = $1, prenom = $2, email = $3 WHERE id = $4 RETURNING *",
+      "UPDATE Students SET nom = $1, prenom = $2, email = $3 WHERE id = $4 RETURNING *",
       [nom, prenom, email, id]
     );
     return result.rows[0];
   },
 
   async remove(id: number): Promise<boolean> {
-    const result = await pool.query("DELETE FROM etudiants WHERE id = $1", [id]);
+    const result = await pool.query("DELETE FROM Students WHERE id = $1", [id]);
     return (result.rowCount ?? 0) > 0;
   },
 };

@@ -1,4 +1,4 @@
-export interface Etudiant {
+export interface Student {
   id: number;
   nom: string;
   prenom: string;
@@ -6,7 +6,7 @@ export interface Etudiant {
   created_at?: Date;
 }
 
-export interface EtudiantInput {
+export interface StudentInput {
   nom: string;
   prenom: string;
   email: string;

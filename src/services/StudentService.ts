@@ -1,22 +1,22 @@
-import { etudiantRepository } from "../repository/StudentRepository";
+import { StudentRepository } from "../repository/StudentRepository";
 import { AppError } from "../types/AppError";
-import { Etudiant,EtudiantInput } from "../model/Student";
-export const EtudiantService = {
+import { Student,StudentInput } from "../model/Student";
+export const StudentService = {
   async getAll() {
-    return await etudiantRepository.findAll();
+    return await StudentRepository.findAll();
   },
 
   async getById(id: number) {
-    const etudiant = await etudiantRepository.findById(id);
+    const Student = await StudentRepository.findById(id);
 
-    if (!etudiant) {
-      throw new AppError("Etudiant non trouve", 404);
+    if (!Student) {
+      throw new AppError("Student non trouve", 404);
     }
 
-    return etudiant;
+    return Student;
   },
 
-  async create(data: EtudiantInput[]): Promise<Etudiant[]> {
+  async create(data: StudentInput[]): Promise<Student[]> {
   if (!Array.isArray(data) || data.length === 0) {
     throw new AppError(
       "La liste des étudiants est obligatoire",
@@ -24,8 +24,8 @@ export const EtudiantService = {
     );
   }
 
-  for (const etudiant of data) {
-    if (!etudiant.nom || !etudiant.prenom || !etudiant.email) {
+  for (const Student of data) {
+    if (!Student.nom || !Student.prenom || !Student.email) {
       throw new AppError(
         "Les champs nom, prenom et email sont obligatoires",
         400
@@ -33,7 +33,7 @@ export const EtudiantService = {
     }
   }
 
-  return await etudiantRepository.create(data);
+  return await StudentRepository.create(data);
 },
 
   async update(
@@ -53,14 +53,14 @@ export const EtudiantService = {
       );
     }
 
-    const updated = await etudiantRepository.update(id, {
+    const updated = await StudentRepository.update(id, {
       nom,
       prenom,
       email,
     });
 
     if (!updated) {
-      throw new AppError("Etudiant non trouve", 404);
+      throw new AppError("Student non trouve", 404);
     }
 
     return updated;
@@ -71,20 +71,20 @@ export const EtudiantService = {
     prenom: string;
     email: string;
   }>) {
-    const updated = await etudiantRepository.patch(id, data);
+    const updated = await StudentRepository.patch(id, data);
 
     if (!updated) {
-      throw new AppError("Etudiant non trouve", 404);
+      throw new AppError("Student non trouve", 404);
     }
 
     return updated;
   },
 
   async remove(id: number) {
-    const deleted = await etudiantRepository.remove(id);
+    const deleted = await StudentRepository.remove(id);
 
     if (!deleted) {
-      throw new AppError("Etudiant non trouve", 404);
+      throw new AppError("Student non trouve", 404);
     }
 
     return deleted;

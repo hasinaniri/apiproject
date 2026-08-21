@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { EtudiantController } from "../controllers/etudiant.controller";
+import { StudentController } from "../controllers/StudentController";
 
 const router = Router();
 
-router.get("/", EtudiantController.getAll);
-router.get("/:id", EtudiantController.getById);
-router.post("/", EtudiantController.create);
-router.put("/:id", EtudiantController.update);
-router.patch("/:id", EtudiantController.patch);
-router.delete("/:id", EtudiantController.remove);
+router.get("/", StudentController.getAll);
+router.get("/:id", StudentController.getById);
+router.post("/", StudentController.create);
+router.put("/:id", StudentController.update);
+router.patch("/:id", StudentController.patch);
+router.delete("/:id", StudentController.remove);
 
 export default router;
