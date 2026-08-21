@@ -1,5 +1,5 @@
 import { etudiantRepository } from "../repository/EtudiantRepository";
-import { AppError } from "../model/AppError";
+import { AppError } from "../types/AppError";
 import { Etudiant,EtudiantInput } from "../model/Etudiant";
 export const EtudiantService = {
   async getAll() {

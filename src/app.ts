@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
-import etudiantRoutes from "./routes/etudiant.routes";
+import etudiantRoutes from "./routes/StudentRoute";
+import AuthRoute from "./routes/AuthRoute";
 import { errorHandler, notFoundHandler } from "./middlewares/errorHandler";
 import { authMiddleware } from "./middlewares/authMiddleware";
 

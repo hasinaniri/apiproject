@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../config/jwt";
-import { AppError } from "../model/AppError";
+import { AppError } from "../types/AppError";
 
 export interface AuthRequest extends Request {
   user?: {
