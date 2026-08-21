@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { etudiantRepository } from "../repository/EtudiantRepository";
+import { etudiantRepository } from "../repository/StudentRepository";
 import { AppError } from "../types/AppError";
-import { EtudiantService } from "../services/EtudiantService";
+import { EtudiantService } from "../services/StudentService";
 export const EtudiantController = {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {

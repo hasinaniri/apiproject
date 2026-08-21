@@ -1,5 +1,5 @@
 import { pool } from "../config/db";
-import { Etudiant, EtudiantInput } from "../model/Etudiant";
+import { Etudiant, EtudiantInput } from "../model/Student";
 
 export const etudiantRepository = {
   async findAll(): Promise<Etudiant[]> {

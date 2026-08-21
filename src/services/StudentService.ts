@@ -1,6 +1,6 @@
-import { etudiantRepository } from "../repository/EtudiantRepository";
+import { etudiantRepository } from "../repository/StudentRepository";
 import { AppError } from "../types/AppError";
-import { Etudiant,EtudiantInput } from "../model/Etudiant";
+import { Etudiant,EtudiantInput } from "../model/Student";
 export const EtudiantService = {
   async getAll() {
     return await etudiantRepository.findAll();
