@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { UserRepository } from "../repository/Userrepository";
+import { UserRepository } from "../repository/UserRepository";
 import { UserInput } from "../model/User";
 import { generateToken } from "../config/jwt";
 import { AppError } from "../types/AppError";
