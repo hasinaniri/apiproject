@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from "express";
-import etudiantRoutes from "./routes/StudentRoute";
+import StudentRoutes from "./routes/StudentRoute";
 import AuthRoute from "./routes/AuthRoute";
 import { errorHandler, notFoundHandler } from "./middlewares/errorHandler";
 import { authMiddleware } from "./middlewares/authMiddleware";
@@ -14,7 +14,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/auth", AuthRoute);
 
-app.use("/etudiants", authMiddleware, etudiantRoutes);
+app.use("/Students", authMiddleware, StudentRoutes);
 
 app.use(notFoundHandler);
 

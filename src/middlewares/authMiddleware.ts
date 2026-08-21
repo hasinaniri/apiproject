@@ -28,7 +28,7 @@ export const authMiddleware = (
     }
 
     const decoded = verifyToken(token);
-
+    
     if (typeof decoded === "string") {
       throw new AppError("Token invalide", 401);
     }

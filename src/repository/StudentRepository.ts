@@ -4,6 +4,7 @@ import { Student, StudentInput } from "../model/Student";
 export const StudentRepository = {
   async findAll(): Promise<Student[]> {
     const result = await pool.query("SELECT * FROM Students ORDER BY id");
+    
     return result.rows;
   },
 
