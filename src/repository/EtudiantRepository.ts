@@ -1,7 +1,7 @@
 import { pool } from "../config/db";
 import { Etudiant, EtudiantInput } from "../types/Etudiant";
 
-export const EtudiantModel = {
+export const etudiantRepository = {
   async findAll(): Promise<Etudiant[]> {
     const result = await pool.query("SELECT * FROM etudiants ORDER BY id");
     return result.rows;
@@ -31,7 +31,7 @@ export const EtudiantModel = {
   },
 
   async patch(id: number, data: Partial<EtudiantInput>): Promise<Etudiant | null> {
-    const existing = await EtudiantModel.findById(id);
+    const existing = await etudiantRepository.findById(id);
     if (!existing) return null;
 
     const nom = data.nom ?? existing.nom;

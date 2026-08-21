@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { EtudiantModel } from "../models/etudiant.model";
+import { EtudiantModel } from "../repository/EtudiantRepository";
 import { AppError } from "../types/AppError";
 
 export const EtudiantController = {
