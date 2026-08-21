@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { etudiantRepository } from "../repository/EtudiantRepository";
 import { AppError } from "../model/AppError";
-
+import { EtudiantService } from "../services/EtudiantService";
 export const EtudiantController = {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
@@ -26,17 +26,14 @@ export const EtudiantController = {
   },
 
   async create(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { nom, prenom, email } = req.body;
-      if (!nom || !prenom || !email) {
-        throw new AppError("Les champs nom, prenom et email sont obligatoires", 400);
-      }
-      const nouvel = await etudiantRepository.create({ nom, prenom, email });
-      res.status(201).json(nouvel);
-    } catch (err) {
-      next(err);
-    }
-  },
+  try {
+    const nouveaux = await EtudiantService.create(req.body);
+
+    res.status(201).json(nouveaux);
+  } catch (err) {
+    next(err);
+  }
+},
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
