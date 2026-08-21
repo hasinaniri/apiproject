@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { etudiantRepository } from "../repository/EtudiantRepository";
-import { AppError } from "../types/AppError";
+import { AppError } from "../model/AppError";
 
 export const EtudiantController = {
   async getAll(req: Request, res: Response, next: NextFunction) {
